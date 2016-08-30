@@ -16,15 +16,15 @@
 #
 ################################################################################
 
-OE_USER="odoo"
-OE_HOME="/opt/$OE_USER"
-OE_HOME_EXT="/opt/$OE_USER/$OE_USER-server"
+OE_USER="odoo_9"
+OE_HOME="/home/$OE_USER"
+OE_HOME_EXT="/home/$OE_USER/$OE_USER-server"
 
 #Enter version for checkout "9.0" for version 9.0,"8.0" for version 8.0, "7.0 (version 7), "master" for trunk
 OE_VERSION="9.0"
 
 #set the superadmin password
-OE_SUPERADMIN="superadminpassword"
+OE_SUPERADMIN="admin"
 OE_CONFIG="$OE_USER-server"
 
 #--------------------------------------------------
@@ -34,26 +34,6 @@ echo -e "\n---- Update Server ----"
 sudo apt-get update
 sudo apt-get upgrade -y
 sudo apt-get install -y locales
-
-#--------------------------------------------------
-# Install PostgreSQL Server
-#--------------------------------------------------
-sudo export LANGUAGE=en_US.UTF-8
-sudo export LANG=en_US.UTF-8
-sudo export LC_ALL=en_US.UTF-8
-sudo locale-gen en_US.UTF-8
-sudo dpkg-reconfigure locales
-
-echo -e "\n---- Install PostgreSQL Server ----"
-sudo apt-get install postgresql -y
-
-echo -e "\n---- PostgreSQL $PG_VERSION Settings  ----"
-sudo sed -i s/"#listen_addresses = 'localhost'"/"listen_addresses = '*'"/g /etc/postgresql/9.4/main/postgresql.conf
-
-echo -e "\n---- Creating the ODOO PostgreSQL User  ----"
-sudo su - postgres -c "createuser -s $OE_USER" 2> /dev/null || true
-
-sudo service postgresql restart
 
 #--------------------------------------------------
 # System Settings
